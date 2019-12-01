@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
+      <config projectName="AVL" targetName="AVL_HASH" />
       <config projectName="AVL" targetName="AV2L" />
       <config projectName="AVL" targetName="AVL" />
     </generated>
@@ -26,8 +27,16 @@
   <component name="ProjectId" id="1UNNHhtHdqBb3I3oorqfFUEAJBB" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../branch-and-bound" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cmake-build-debug" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -41,7 +50,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="CMake Application.AVL">
+  <component name="RunManager" selected="CMake Application.AVL_HASH">
     <configuration name="AV2L" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AVL" TARGET_NAME="AV2L" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="AVL" RUN_TARGET_NAME="AV2L">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -52,9 +61,15 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AVL_HASH" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AVL" TARGET_NAME="AVL_HASH" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="AVL" RUN_TARGET_NAME="AVL_HASH">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="CMake Application.AV2L" />
       <item itemvalue="CMake Application.AVL" />
+      <item itemvalue="CMake Application.AVL_HASH" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -68,7 +83,7 @@
       <option name="presentableId" value="Default" />
       <updated>1575193006595</updated>
       <workItem from="1575193008772" duration="13716000" />
-      <workItem from="1575208737280" duration="4341000" />
+      <workItem from="1575208737280" duration="11175000" />
     </task>
     <servers />
   </component>
@@ -79,9 +94,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>288</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/avl_hash.cpp</url>
+          <line>336</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

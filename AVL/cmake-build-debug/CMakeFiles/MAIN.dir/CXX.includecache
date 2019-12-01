@@ -6,11 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/gabriela/CLionProjects/AVL/auxiliar_prof.cpp
-cstdio
+/home/gabriela/CLionProjects/AVL/avl_hash.cpp
+iostream
 -
-cstring
+string
 -
-cstdlib
+utility
+-
+vector
+-
+fstream
 -
 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/MAIN.dir/avl_hash.cpp.o  -o MAIN 

@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named AVL_HASH
+
+# Build rule for target.
+AVL_HASH: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 AVL_HASH
+.PHONY : AVL_HASH
+
+# fast build rule for target.
+AVL_HASH/fast:
+	$(MAKE) -f CMakeFiles/AVL_HASH.dir/build.make CMakeFiles/AVL_HASH.dir/build
+.PHONY : AVL_HASH/fast
+
+#=============================================================================
 # Target rules for targets named AVL
 
 # Build rule for target.
@@ -136,32 +149,59 @@ AV2L/fast:
 	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/build
 .PHONY : AV2L/fast
 
-auxiliar.o: auxiliar.cpp.o
+auxiliar_prof.o: auxiliar_prof.cpp.o
 
-.PHONY : auxiliar.o
+.PHONY : auxiliar_prof.o
 
 # target to build an object file
-auxiliar.cpp.o:
-	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar.cpp.o
-.PHONY : auxiliar.cpp.o
+auxiliar_prof.cpp.o:
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar_prof.cpp.o
+.PHONY : auxiliar_prof.cpp.o
 
-auxiliar.i: auxiliar.cpp.i
+auxiliar_prof.i: auxiliar_prof.cpp.i
 
-.PHONY : auxiliar.i
+.PHONY : auxiliar_prof.i
 
 # target to preprocess a source file
-auxiliar.cpp.i:
-	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar.cpp.i
-.PHONY : auxiliar.cpp.i
+auxiliar_prof.cpp.i:
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar_prof.cpp.i
+.PHONY : auxiliar_prof.cpp.i
 
-auxiliar.s: auxiliar.cpp.s
+auxiliar_prof.s: auxiliar_prof.cpp.s
 
-.PHONY : auxiliar.s
+.PHONY : auxiliar_prof.s
 
 # target to generate assembly for a file
-auxiliar.cpp.s:
-	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar.cpp.s
-.PHONY : auxiliar.cpp.s
+auxiliar_prof.cpp.s:
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar_prof.cpp.s
+.PHONY : auxiliar_prof.cpp.s
+
+avl_hash.o: avl_hash.cpp.o
+
+.PHONY : avl_hash.o
+
+# target to build an object file
+avl_hash.cpp.o:
+	$(MAKE) -f CMakeFiles/AVL_HASH.dir/build.make CMakeFiles/AVL_HASH.dir/avl_hash.cpp.o
+.PHONY : avl_hash.cpp.o
+
+avl_hash.i: avl_hash.cpp.i
+
+.PHONY : avl_hash.i
+
+# target to preprocess a source file
+avl_hash.cpp.i:
+	$(MAKE) -f CMakeFiles/AVL_HASH.dir/build.make CMakeFiles/AVL_HASH.dir/avl_hash.cpp.i
+.PHONY : avl_hash.cpp.i
+
+avl_hash.s: avl_hash.cpp.s
+
+.PHONY : avl_hash.s
+
+# target to generate assembly for a file
+avl_hash.cpp.s:
+	$(MAKE) -f CMakeFiles/AVL_HASH.dir/build.make CMakeFiles/AVL_HASH.dir/avl_hash.cpp.s
+.PHONY : avl_hash.cpp.s
 
 main.o: main.cpp.o
 
@@ -198,11 +238,15 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... AVL_HASH"
 	@echo "... AVL"
 	@echo "... AV2L"
-	@echo "... auxiliar.o"
-	@echo "... auxiliar.i"
-	@echo "... auxiliar.s"
+	@echo "... auxiliar_prof.o"
+	@echo "... auxiliar_prof.i"
+	@echo "... auxiliar_prof.s"
+	@echo "... avl_hash.o"
+	@echo "... avl_hash.i"
+	@echo "... avl_hash.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

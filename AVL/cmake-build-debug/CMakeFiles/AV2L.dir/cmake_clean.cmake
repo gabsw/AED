@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/AV2L.dir/auxiliar.cpp.o"
+  "CMakeFiles/AV2L.dir/auxiliar_prof.cpp.o"
   "AV2L.pdb"
   "AV2L"
 )
