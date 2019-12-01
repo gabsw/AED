@@ -15,6 +15,7 @@ class HashTable{
 				int first_position;
 				int last_position;
 				int counter;
+				vector<int> all_positions;
 				Node* next;
 				Node* previous;
 				Node* tail;
@@ -71,8 +72,8 @@ class HashTable{
 		int rePut(Node** newArray,Node* node,int size){
 			Node* newNode=new Node;  //uma copia de node
 			newNode->key = node->key;
-			newNode->first_position = node->first_position;
-			newNode->last_position = node->last_position;
+			newNode->first_position=node->first_position;
+			newNode->last_position=node->last_position;
 			newNode->counter=1;
 			newNode->next=nullptr;
 			newNode->previous=nullptr;
@@ -93,7 +94,6 @@ class HashTable{
 										//temp neste caso é o primeiro Node nessa posição
 					if(!strcmp(temp->key,newNode->key)) {	//comparar as keys
 						temp->counter++;	//se for igual,counter++;
-						temp->last_position=position;
 						keyRepeat = 1;		//como key já existe na posição hash-->keyRepeat=1;
 						break;
 					}else {
@@ -122,8 +122,9 @@ class HashTable{
 			void put(char* key,int position) {
 				Node* newNode=new Node; //criar Node com a chave e a posição
 				newNode->key = key;
-				newNode->first_position = position;
-				newNode->lastt_position = position;
+				newNode->first_position=position;
+				newNode->last_position=position;
+				newNode->all_positions.push_back(position);
 				newNode->counter=1;
 				newNode->next=nullptr;
 				newNode->previous=nullptr;
@@ -145,6 +146,7 @@ class HashTable{
 						if(!strcmp(temp->key,key)) {	//comparar as keys
 							temp->counter++;	//se for igual,counter++;
 							temp->last_position=position;
+							temp->all_positions.push_back(position);
 							keyRepeat = 1;		//como key já existe na posição hash-->keyRepeat=1;
 							break;
 						}else {
@@ -175,9 +177,10 @@ class HashTable{
 				else{
 					while(temp!=nullptr) {
 						if(!strcmp(temp->key,key)) {
-							static int a[2];
-							a[0]=temp->position;
-							a[1]=temp->counter;
+							static int a[3];
+							a[0]=temp->first_position;
+							a[1]=temp->last_position;
+							a[2]=temp->counter;
 							return a;
 						}else {
 							temp=temp->next;
@@ -187,7 +190,7 @@ class HashTable{
 				}
 			}
 
-			int getPosition(char* key) {
+			int* getPositions(char* key) {
 				int hash =hash_function(key,tablesize);
 				Node* temp = table[hash];
 				if(temp==nullptr){
@@ -196,7 +199,10 @@ class HashTable{
 				else{
 					while(temp!=nullptr) {
 						if(!strcmp(temp->key,key)) {
-							return temp->position;
+							static int a[2];
+							a[0]=temp->first_position;
+							a[1]=temp->last_position;
+							return a;
 						}else {
 							temp=temp->next;
 						}
@@ -237,46 +243,44 @@ class HashTable{
 				int flag=-1;
 				for (int i = 0; i < tablesize; i++)
 				{	
-					vector<int> results;
-					max=INT_MIN;
-					min=INT_MAX;
-					avg=0;
-					total=0;
-					size=0;
 					Node* temp=table[i];
 					while(temp!=nullptr){
-						Node* nextNode=temp->next;
-						while(nextNode!=nullptr){
-							flag=1;
-							int distance=abs(temp->position-nextNode->position);
-
-							if (distance>max)
+						vector<int> results;
+						max=INT_MIN;
+						min=INT_MAX;
+						avg=0;
+						total=0;
+						size=0;
+						for (int i = 0; i < temp->all_positions.size(); i++)
+						{
+							for (int k = i+1; k < temp->all_positions.size(); k++)
 							{
-								max=distance;
+								int distance=abs(temp->all_positions[i]-temp->all_positions[k]);
+								if (distance>max)
+								{
+									max=distance;
+								}
+								if (distance<min)
+								{
+									min=distance;
+								}
+
+								total+=distance;
+								size++;
+								flag=1;
 							}
-							if(distance<min){
-								min=distance;
-							}
-							total=total+distance;
-							nextNode=nextNode->next;
-							size++;
+						}
+						if (flag==1)
+						{
+							avg=total/size;
+							results.push_back(max);
+							results.push_back(min);
+							results.push_back(avg);
+							AllResults.push_back(results);
 						}
 						temp=temp->next;
 					}
-
-					if (flag==-1) // se a posição está vazia ou apenas contem 1 Node
-					{	
-						results.push_back(0);
-						results.push_back(0);
-						results.push_back(0);
-					}else{   //se haver mais do que 1 Node
-						avg=total/size;
-						results.push_back(max);
-						results.push_back(min);
-						results.push_back(avg);
-					}
 					
-					AllResults.push_back(results);
 				}
 				return AllResults;
 			}
@@ -286,7 +290,7 @@ class HashTable{
 				{
 					Node* temp=table[i];
 					while(temp!=nullptr){
-						cout<< temp->key<<"[ position:"<<temp->position<<"; counter:"<<temp->counter<<"]\n"<<endl;
+						cout<< temp->key<<"[ position:"<<temp->first_position<<"; counter:"<<temp->counter<<"]\n"<<endl;
 						temp=temp->next;
 					}
 				}
