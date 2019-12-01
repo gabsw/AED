@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="Report2" targetName="Report2" />
-      <config projectName="Report2" targetName="AVL" />
+      <config projectName="AVL" targetName="AV2L" />
+      <config projectName="AVL" targetName="AVL" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -27,6 +27,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../branch-and-bound" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -40,20 +41,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="CMake Application.Report2">
-    <configuration name="AVL" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Report2" TARGET_NAME="AVL" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Report2" RUN_TARGET_NAME="AVL">
+  <component name="RunManager" selected="CMake Application.AVL">
+    <configuration name="AV2L" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AVL" TARGET_NAME="AV2L" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="AVL" RUN_TARGET_NAME="AV2L">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Report2" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Report2" TARGET_NAME="Report2" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Report2" RUN_TARGET_NAME="Report2">
+    <configuration name="AVL" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AVL" TARGET_NAME="AVL" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="AVL" RUN_TARGET_NAME="AVL">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake Application.AV2L" />
       <item itemvalue="CMake Application.AVL" />
-      <item itemvalue="CMake Application.Report2" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -66,7 +67,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1575193006595</updated>
-      <workItem from="1575193008772" duration="12719000" />
+      <workItem from="1575193008772" duration="13716000" />
+      <workItem from="1575208737280" duration="4341000" />
     </task>
     <servers />
   </component>
@@ -78,8 +80,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>237</line>
-          <option name="timeStamp" value="3" />
+          <line>288</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

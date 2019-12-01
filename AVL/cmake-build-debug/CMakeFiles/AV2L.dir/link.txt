@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/AV2L.dir/auxiliar.cpp.o  -o AV2L 

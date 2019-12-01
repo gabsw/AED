@@ -48,10 +48,10 @@ RM = /home/gabriela/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.5728.100/
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/gabriela/CLionProjects/Report2
+CMAKE_SOURCE_DIR = /home/gabriela/CLionProjects/AVL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/gabriela/CLionProjects/Report2/cmake-build-debug
+CMAKE_BINARY_DIR = /home/gabriela/CLionProjects/AVL/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gabriela/CLionProjects/Report2/cmake-build-debug/CMakeFiles /home/gabriela/CLionProjects/Report2/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gabriela/CLionProjects/AVL/cmake-build-debug/CMakeFiles /home/gabriela/CLionProjects/AVL/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gabriela/CLionProjects/Report2/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gabriela/CLionProjects/AVL/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Report2
-
-# Build rule for target.
-Report2: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Report2
-.PHONY : Report2
-
-# fast build rule for target.
-Report2/fast:
-	$(MAKE) -f CMakeFiles/Report2.dir/build.make CMakeFiles/Report2.dir/build
-.PHONY : Report2/fast
-
-#=============================================================================
 # Target rules for targets named AVL
 
 # Build rule for target.
@@ -136,13 +123,26 @@ AVL/fast:
 	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/build
 .PHONY : AVL/fast
 
+#=============================================================================
+# Target rules for targets named AV2L
+
+# Build rule for target.
+AV2L: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 AV2L
+.PHONY : AV2L
+
+# fast build rule for target.
+AV2L/fast:
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/build
+.PHONY : AV2L/fast
+
 auxiliar.o: auxiliar.cpp.o
 
 .PHONY : auxiliar.o
 
 # target to build an object file
 auxiliar.cpp.o:
-	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/auxiliar.cpp.o
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar.cpp.o
 .PHONY : auxiliar.cpp.o
 
 auxiliar.i: auxiliar.cpp.i
@@ -151,7 +151,7 @@ auxiliar.i: auxiliar.cpp.i
 
 # target to preprocess a source file
 auxiliar.cpp.i:
-	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/auxiliar.cpp.i
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar.cpp.i
 .PHONY : auxiliar.cpp.i
 
 auxiliar.s: auxiliar.cpp.s
@@ -160,7 +160,7 @@ auxiliar.s: auxiliar.cpp.s
 
 # target to generate assembly for a file
 auxiliar.cpp.s:
-	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/auxiliar.cpp.s
+	$(MAKE) -f CMakeFiles/AV2L.dir/build.make CMakeFiles/AV2L.dir/auxiliar.cpp.s
 .PHONY : auxiliar.cpp.s
 
 main.o: main.cpp.o
@@ -169,7 +169,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/Report2.dir/build.make CMakeFiles/Report2.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -178,7 +178,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/Report2.dir/build.make CMakeFiles/Report2.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -187,7 +187,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/Report2.dir/build.make CMakeFiles/Report2.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/AVL.dir/build.make CMakeFiles/AVL.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -198,8 +198,8 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... Report2"
 	@echo "... AVL"
+	@echo "... AV2L"
 	@echo "... auxiliar.o"
 	@echo "... auxiliar.i"
 	@echo "... auxiliar.s"
