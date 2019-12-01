@@ -23,7 +23,9 @@ class HashTable{
 	private:
 		int tablesize=100;
 		Node** table;
-		const int maxListSize=10;
+		int size=0;
+		int maxtablesize=75;
+		const float threshold=0.75;
 	private:
 		unsigned int hash_function(const char *str,unsigned int s)
 		{
@@ -44,6 +46,9 @@ class HashTable{
 
 		void expand(){
 			int newsize=tablesize*1.5;
+			this->maxtablesize=newsize*threshold;
+			this->size=0;
+
 			Node** newArray=new Node*[newsize]; //tamanho da table aumenta 50%
 			for(int i=0;i<tablesize;i++){
 				Node* temp=table[i];
@@ -67,6 +72,8 @@ class HashTable{
 			}
 			this->tablesize=newsize;
 			this->table=newArray;
+			newArray=NULL;
+			delete[] newArray; 
 		}
 
 		int rePut(Node** newArray,Node* node,int size){
@@ -74,13 +81,12 @@ class HashTable{
 			newNode->key = node->key;
 			newNode->first_position=node->first_position;
 			newNode->last_position=node->last_position;
-			newNode->counter=1;
+			newNode->counter=node->counter;
 			newNode->next=nullptr;
 			newNode->previous=nullptr;
 			newNode->tail=nullptr; //o ultimo Node da lista
 
 			int hash=hash_function(node->key,size);
-
 			Node* last=nullptr;
 			Node* temp = newArray[hash];
 			Node* head= newArray[hash];
@@ -90,24 +96,17 @@ class HashTable{
 				newArray[hash]=newNode;	//guardar Node temp nessa posicao
 			}
 			else{
-				while(temp!=nullptr) {	//se nao for null, entao a posição hash não está vazia
-										//temp neste caso é o primeiro Node nessa posição
-					if(!strcmp(temp->key,newNode->key)) {	//comparar as keys
-						temp->counter++;	//se for igual,counter++;
-						keyRepeat = 1;		//como key já existe na posição hash-->keyRepeat=1;
-						break;
-					}else {
-						last=temp;	
-						temp=temp->next;	//se temp->key!=key, avança para o proximo Node
-					}
+				while(temp!=nullptr) {	//a posição hash não está vazia
+					last=temp;	
+					temp=temp->next;	//se temp->key!=key, avança para o proximo Node
 				}	
-				
-				if(keyRepeat!=1){ //se nao encontrar a key na lista,acrescenta a nova key no fim da lista
-					last->next = newNode;
-					newNode->previous=last;
-					head->tail=newNode; //newNode passa ser o ultimo Node da lista que começa por head,ou seja,começa por newArray[hash];
-				}
+				last->next = newNode;
+				newNode->previous=last;
+				head->tail=newNode; //newNode passa ser o ultimo Node da lista que começa por head,ou seja,começa por newArray[hash];
+				size++;
 			}
+			newNode=NULL;
+			delete newNode;
 		}
 
 	public:
@@ -116,7 +115,7 @@ class HashTable{
 			}
 
 			~HashTable(void){
-
+				delete[] table;
 			}
 
 			void put(char* key,int position) {
@@ -132,7 +131,6 @@ class HashTable{
 				int hash=hash_function(key,tablesize);
 				Node* last=nullptr;
 				Node* temp = table[hash];
-
 				Node* head= table[hash];
 
 				int listSize=0;
@@ -147,25 +145,27 @@ class HashTable{
 							temp->counter++;	//se for igual,counter++;
 							temp->last_position=position;
 							temp->all_positions.push_back(position);
-							keyRepeat = 1;		//como key já existe na posição hash-->keyRepeat=1;
+							keyRepeat = 1;		//como key já existe na posição hash-->keyRepeat=1;	
+							newNode=NULL;
+							delete newNode;			
 							break;
 						}else {
 							last=temp;	
 							temp=temp->next;	//se temp->key!=key, avança para o proximo Node
-							listSize++;
 						}
 					}	
 					if(keyRepeat!=1){ //se nao encontrar a key na lista,acrescentar o novo Node no fim da lista
 						last->next=newNode;//o ultimo Node da lista vai ser newNode
 						newNode->previous=last;
 						head->tail=newNode; //o tail vai ser newNode
-						listSize++;
+						size++;
 					}
 				}
-				if (listSize>maxListSize)
+				if (size>maxtablesize)
 				{
 					expand();
 				}
+
 			}
 
 			int* getPositionAndCounter(char* key) {
@@ -229,11 +229,8 @@ class HashTable{
 				}
 			}
 
-			int size(){
-				return tablesize;
-			}
-
 			vector<vector<int> > computeDistances(){
+
 				vector<vector<int> > AllResults;
 				int max;
 				int min;
@@ -251,6 +248,7 @@ class HashTable{
 						avg=0;
 						total=0;
 						size=0;
+						flag=-1;
 						for (int i = 0; i < temp->all_positions.size(); i++)
 						{
 							for (int k = i+1; k < temp->all_positions.size(); k++)
@@ -286,8 +284,10 @@ class HashTable{
 			}
 			
 			void printTable(){
+
 				for (int i = 0; i < tablesize; i++)
 				{
+				
 					Node* temp=table[i];
 					while(temp!=nullptr){
 						cout<< temp->key<<"[ position:"<<temp->first_position<<"; counter:"<<temp->counter<<"]\n"<<endl;
