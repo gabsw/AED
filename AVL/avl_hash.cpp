@@ -29,7 +29,70 @@ public:
         os << "]";
         return os;
     }
+
+    long getLastPosition() {
+        long lastIndex = positions.size() - 1;
+        return positions[lastIndex];
+    }
 };
+
+
+class Stats {
+public:
+    long firstPosition;
+    long lastPosition;
+    long minDistance;
+    long maxDistance = 0;
+    double avgDistance = 0;
+    Info info;
+
+    Stats(Info info) : info(info) {
+        firstPosition = info.positions[0];
+        lastPosition = info.getLastPosition();
+        minDistance = lastPosition - firstPosition; // it will be replaced very soon
+    }
+
+    void calcDistances() {
+
+        long distance = 0;
+
+        long total = 0;
+
+        for (int i = 0; i < info.positions.size() - 1; i++) {
+            for (int k = i + 1; k < info.positions.size(); k++) {
+
+                distance = info.positions[k] - info.positions[i];
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                }
+
+                if (distance > maxDistance) {
+                    maxDistance = distance;
+                }
+
+                total += distance;
+            }
+        }
+
+        avgDistance = total / info.positions.size();
+
+    }
+
+    void print() {
+
+        cout << "Word: " << info.word << endl;
+        cout << "First Position: "<< firstPosition << endl;
+        cout << "Last Position: "<< lastPosition << endl;
+        cout << "Min Distance: "<< minDistance << endl;
+        cout << "Max Distance: "<< maxDistance << endl;
+        cout << "Avg Distance: "<< avgDistance << endl;
+        cout << endl;
+    }
+
+};
+
+
 
 class Node {
 public:
@@ -333,7 +396,7 @@ HashTable readFileToHashTable(const string &filename) {
     long position = 1;
     // extracting words from the file
     while (file >> word) {
-        // change everything to lowercase ?
+
         word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
         transform(word.begin(), word.end(), word.begin(), ::tolower);
 
@@ -347,6 +410,8 @@ HashTable readFileToHashTable(const string &filename) {
 }
 
 int main() {
+
+    // Beginning of Tests
     Tree tree = Tree();
     tree.addWord("blue", 5);
     tree.addWord("brown", 18);
@@ -401,6 +466,7 @@ int main() {
         cout << infoVector2[i] << endl;
     }
 
+
     // test hashtable
     HashTable hashTable;
     hashTable.addWord("blue", 5);
@@ -446,8 +512,24 @@ int main() {
         cout << infoVector3[i] << endl;
     }
 
+
+    for (int i = 0; i < infoVector3.size(); i++) {
+        Stats stats = Stats(infoVector3[i]);
+        stats.calcDistances();
+        stats.print();
+    }
+
+    // End of Tests
+
     HashTable sherlock = readFileToHashTable("SherlockHolmes.txt");
     cout << sherlock.currentSize << endl;
+
+    vector<Info> infoSherlock = hashTable.retrieveAllInfo();
+
+    for (int i = 0; i < infoSherlock.size(); i++) {
+        Stats stats = Stats(infoSherlock[i]);
+        stats.calcDistances();
+    }
 
     return 0;
 }

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="AVL" targetName="AVL_HASH" />
       <config projectName="AVL" targetName="AV2L" />
+      <config projectName="AVL" targetName="AVL_HASH" />
       <config projectName="AVL" targetName="AVL" />
     </generated>
   </component>
@@ -84,21 +84,11 @@
       <updated>1575193006595</updated>
       <workItem from="1575193008772" duration="13716000" />
       <workItem from="1575208737280" duration="11175000" />
+      <workItem from="1575277162052" duration="9431000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/avl_hash.cpp</url>
-          <line>336</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

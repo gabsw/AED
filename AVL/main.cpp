@@ -2,6 +2,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -27,6 +29,66 @@ public:
         os << "]";
         return os;
     }
+
+    long getLastPosition() {
+        long lastIndex = positions.size() - 1;
+        return positions[lastIndex];
+    }
+};
+
+class Stats {
+public:
+    long firstPosition;
+    long lastPosition;
+    long minDistance;
+    long maxDistance = 0;
+    double avgDistance = 0;
+    Info info;
+
+    Stats(Info info) : info(info) {
+        firstPosition = info.positions[0];
+        lastPosition = info.getLastPosition();
+        minDistance = lastPosition - firstPosition; // it will be replaced very soon
+    }
+
+    void calcDistances() {
+
+        long distance = 0;
+
+        long total = 0;
+
+        for (int i = 0; i < info.positions.size() - 1; i++) {
+            for (int k = i + 1; k < info.positions.size(); k++) {
+
+                distance = info.positions[k] - info.positions[i];
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                }
+
+                if (distance > maxDistance) {
+                    maxDistance = distance;
+                }
+
+                total += distance;
+            }
+        }
+
+        avgDistance = total / info.positions.size();
+
+    }
+
+    void print() {
+
+        cout << "Word: " << info.word << endl;
+        cout << "First Position: "<< firstPosition << endl;
+        cout << "Last Position: "<< lastPosition << endl;
+        cout << "Min Distance: "<< minDistance << endl;
+        cout << "Max Distance: "<< maxDistance << endl;
+        cout << "Avg Distance: "<< avgDistance << endl;
+        cout << endl;
+    }
+
 };
 
 class Node {
@@ -218,27 +280,34 @@ private:
     }
 };
 
-unsigned int hash_function(const string &string,unsigned int s)
-{
-    static unsigned int table[256];
-    unsigned int crc,i,j;
-    if(table[1] == 0u)
-        for(i = 0u;i < 256u;i++)
-            for(table[i] = i,j = 0u;j < 8u;j++)
-                if(table[i] & 1u)
-                    table[i] = (table[i] >> 1) ^ 0xAED00022u;
-                else
-                    table[i] >>= 1;
-    crc = 0xAED02019u;
+Tree readFileToTree(const string &filename) {
+    fstream file;
+    string word;
 
-    const char* str = string.c_str();
-    while(*str !='\0')
-        crc = (crc >> 8) ^ table[crc & 0xFFu] ^ ((unsigned int)*str++ << 24);
-    return crc % s;
+    // opening file
+    file.open(filename.c_str());
+
+    Tree tree;
+    long position = 1;
+    // extracting words from the file
+    while (file >> word) {
+
+        word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
+
+        tree.addWord(word, position);
+        position++;
+    }
+
+    file.close();
+
+    return tree;
 }
 
 
 int main() {
+
+    // Beginning of tests
     Tree tree = Tree();
     tree.addWord("blue", 5);
     tree.addWord("brown", 18);
@@ -293,9 +362,18 @@ int main() {
         cout << infoVector2[i] << endl;
     }
 
-    // hash function test
-    cout << endl << "String hash:" << endl;
-    cout << hash_function("this is a test str", 10000) << endl;
+    // End of tests
+
+    Tree sherlock = readFileToTree("SherlockHolmes.txt");
+
+    vector<Info> infoSherlock;
+
+    sherlock.addAllInfoToVector(infoSherlock);
+
+    for (int i = 0; i < infoSherlock.size(); i++) {
+        Stats stats = Stats(infoSherlock[i]);
+        stats.calcDistances();
+    }
 
     return 0;
 }
