@@ -1,17 +1,20 @@
 #ifndef AED
 #define AED
 #include <iostream>
+#include <string>
 #include <string.h>
 #include <vector> 
+#include <fstream>
+#include <algorithm>
+#include <utility>
 #define INT_MIN -2147483648
 #define INT_MAX 2147483647
 using namespace std;
 
-class HashTable{
-	private:
-		class Node{
+
+class Node{
 			public:
-				char* key;
+				string key;
 				int first_position;
 				int last_position;
 				int counter;
@@ -19,7 +22,51 @@ class HashTable{
 				Node* next;
 				Node* previous;
 				Node* tail;
+			public:
+				string getKey(){ return key;}
+				int getCounter(){return counter;}
+				vector<int> getAllPositions(){
+					return all_positions;
+				}
+
 		};
+		
+class Stats
+{
+	public:
+		Stats(Node* node) {
+			info=node;
+			fillInfo();
+		};
+
+		~Stats(){
+
+		}
+	
+	public:
+		int first_position;
+		int last_position;
+		vector<int> positions;
+		int maxDistance=0;
+		int minDistance=0;
+		double avgDistance=0;
+		string key;
+		int counter;
+		Node* info;
+
+	private:
+		void fillInfo(){
+			this->positions=info->getAllPositions();	
+			this->first_position=this->positions[0];
+			this->last_position=this->positions[positions.size()];
+			this->key=info->getKey();
+			this->counter=info->getCounter();
+		}
+
+};
+
+class HashTable{
+	
 	private:
 		int tablesize=100;
 		Node** table;
@@ -27,7 +74,7 @@ class HashTable{
 		int maxtablesize=75;
 		const float threshold=0.75;
 	private:
-		unsigned int hash_function(const char *str,unsigned int s)
+		unsigned int hash_function(const string &string,unsigned int s)
 		{
 			static unsigned int table[256];
 			unsigned int crc,i,j;
@@ -39,6 +86,7 @@ class HashTable{
 						else
 							table[i] >>= 1;
 			crc = 0xAED02019u; 
+			const char*str = string.c_str();
 			while(*str !='\0')
 				crc = (crc >> 8) ^ table[crc & 0xFFu] ^ ((unsigned int)*str++ << 24);
 		return crc % s;
@@ -91,7 +139,6 @@ class HashTable{
 			Node* temp = newArray[hash];
 			Node* head= newArray[hash];
 
-			int keyRepeat = -1;
 			if(temp==nullptr){ //se Node temp for null, então a posicao hash está vazia
 				newArray[hash]=newNode;	//guardar Node temp nessa posicao
 			}
@@ -118,7 +165,7 @@ class HashTable{
 				delete[] table;
 			}
 
-			void put(char* key,int position) {
+			void put(string key,int position) {
 				Node* newNode=new Node; //criar Node com a chave e a posição
 				newNode->key = key;
 				newNode->first_position=position;
@@ -133,7 +180,6 @@ class HashTable{
 				Node* temp = table[hash];
 				Node* head= table[hash];
 
-				int listSize=0;
 				int keyRepeat = -1;
 				if(temp==nullptr){ //se Node temp for null, entao a posicao hash esta vazia
 					table[hash]=newNode;	//guardar Node temp nessa posicao
@@ -141,7 +187,7 @@ class HashTable{
 				else{
 					while(temp!=nullptr) {	//se nao for null, entao a posicao hash nao esta vazia
 											//temp neste caso é o primeiro Node nessa posição
-						if(!strcmp(temp->key,key)) {	//comparar as keys
+						if(temp->key.compare(key)==0) {	//comparar as keys
 							temp->counter++;	//se for igual,counter++;
 							temp->last_position=position;
 							temp->all_positions.push_back(position);
@@ -168,7 +214,7 @@ class HashTable{
 
 			}
 
-			int* getPositionAndCounter(char* key) {
+			int* getPositionAndCounter(string key) {
 				int hash =hash_function(key,tablesize);
 				Node* temp = table[hash];
 				if(temp==nullptr){
@@ -176,7 +222,7 @@ class HashTable{
 				}
 				else{
 					while(temp!=nullptr) {
-						if(!strcmp(temp->key,key)) {
+						if(temp->key.compare(key)==0) {
 							static int a[3];
 							a[0]=temp->first_position;
 							a[1]=temp->last_position;
@@ -190,7 +236,7 @@ class HashTable{
 				}
 			}
 
-			int* getPositions(char* key) {
+			int* getPositions(string key) {
 				int hash =hash_function(key,tablesize);
 				Node* temp = table[hash];
 				if(temp==nullptr){
@@ -198,7 +244,7 @@ class HashTable{
 				}
 				else{
 					while(temp!=nullptr) {
-						if(!strcmp(temp->key,key)) {
+						if(temp->key.compare(key)==0) {
 							static int a[2];
 							a[0]=temp->first_position;
 							a[1]=temp->last_position;
@@ -211,7 +257,7 @@ class HashTable{
 				}
 			}
 
-			int getCounter(char* key) {
+			int getCounter(string key) {
 				int hash =hash_function(key,tablesize);
 				Node* temp = table[hash];
 				if(temp==nullptr){
@@ -219,7 +265,7 @@ class HashTable{
 				}
 				else{
 					while(temp!=nullptr) {
-						if(!strcmp(temp->key,key)) {
+						if(temp->key.compare(key)==0) {
 							return temp->counter;
 						}else {
 							temp=temp->next;
@@ -229,12 +275,16 @@ class HashTable{
 				}
 			}
 
-			vector<vector<int> > computeDistances(){
 
-				vector<vector<int> > AllResults;
+			int getSize(){
+				return tablesize;
+			}
+
+			vector<Stats> computeDistances(){
+				vector<Stats> AllResults;
 				int max;
 				int min;
-				int avg;
+				double avg;
 				int total;
 				int size;
 				int flag=-1;
@@ -242,18 +292,18 @@ class HashTable{
 				{	
 					Node* temp=table[i];
 					while(temp!=nullptr){
-						vector<int> results;
+						Stats s=Stats(temp);
 						max=INT_MIN;
 						min=INT_MAX;
 						avg=0;
 						total=0;
 						size=0;
 						flag=-1;
-						for (int i = 0; i < temp->all_positions.size(); i++)
+						for (int i = 0; i < s.positions.size(); i++)
 						{
-							for (int k = i+1; k < temp->all_positions.size(); k++)
+							for (int k = i+1; k < s.positions.size(); k++)
 							{
-								int distance=abs(temp->all_positions[i]-temp->all_positions[k]);
+								int distance=abs(s.positions[i]-s.positions[k]);
 								if (distance>max)
 								{
 									max=distance;
@@ -270,11 +320,17 @@ class HashTable{
 						}
 						if (flag==1)
 						{
-							avg=total/size;
-							results.push_back(max);
-							results.push_back(min);
-							results.push_back(avg);
-							AllResults.push_back(results);
+							avg=(double)total/size;
+							s.maxDistance=max;
+							s.minDistance=min;
+							s.avgDistance=avg;
+							AllResults.push_back(s);
+						}else
+						{
+							s.maxDistance=0;
+							s.minDistance=0;
+							s.avgDistance=0;
+							AllResults.push_back(s);	
 						}
 						temp=temp->next;
 					}
@@ -282,12 +338,11 @@ class HashTable{
 				}
 				return AllResults;
 			}
-			
+
 			void printTable(){
 
 				for (int i = 0; i < tablesize; i++)
 				{
-				
 					Node* temp=table[i];
 					while(temp!=nullptr){
 						cout<< temp->key<<"[ position:"<<temp->first_position<<"; counter:"<<temp->counter<<"]\n"<<endl;
@@ -297,4 +352,30 @@ class HashTable{
 			}
 
 };
+
+
+
+HashTable readFileToHashTable(const string &filename) {
+    fstream file;
+    string word;
+
+    // opening file
+    file.open(filename.c_str());
+
+    HashTable hashTable;
+    long position = 1;
+    // extracting words from the file
+    while (file >> word) {
+        // change everything to lowercase ?
+        word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
+
+        hashTable.put(word, position);
+        position++;
+    }
+
+    file.close();
+
+    return hashTable;
+}
 #endif
