@@ -57,21 +57,20 @@ public:
 
         long total = 0;
 
+
         for (int i = 0; i < info.positions.size() - 1; i++) {
-            for (int k = i + 1; k < info.positions.size(); k++) {
 
-                distance = info.positions[k] - info.positions[i];
+            distance = info.positions[i + 1] - info.positions[i];
 
-                if (distance < minDistance) {
-                    minDistance = distance;
-                }
-
-                if (distance > maxDistance) {
-                    maxDistance = distance;
-                }
-
-                total += distance;
+            if (distance < minDistance) {
+                minDistance = distance;
             }
+
+            if (distance > maxDistance) {
+                maxDistance = distance;
+            }
+
+            total += distance;
         }
 
         avgDistance = total / info.positions.size();
@@ -81,11 +80,11 @@ public:
     void print() {
 
         cout << "Word: " << info.word << endl;
-        cout << "First Position: "<< firstPosition << endl;
-        cout << "Last Position: "<< lastPosition << endl;
-        cout << "Min Distance: "<< minDistance << endl;
-        cout << "Max Distance: "<< maxDistance << endl;
-        cout << "Avg Distance: "<< avgDistance << endl;
+        cout << "First Position: " << firstPosition << endl;
+        cout << "Last Position: " << lastPosition << endl;
+        cout << "Min Distance: " << minDistance << endl;
+        cout << "Max Distance: " << maxDistance << endl;
+        cout << "Avg Distance: " << avgDistance << endl;
         cout << endl;
     }
 
@@ -197,7 +196,7 @@ private:
         return node;
     }
 
-    Node* addWord(Node *node, const Info& newInfo) {
+    Node *addWord(Node *node, const Info &newInfo) {
         if (node == nullptr) {
             Node *newNode = new Node(newInfo);
             return newNode;
@@ -248,7 +247,7 @@ private:
         return node;
     }
 
-    Node* rotateRightSide(Node *oldRoot) {
+    Node *rotateRightSide(Node *oldRoot) {
         Node *newRoot = oldRoot->left;
         Node *rotatedChild = newRoot->right;
 
@@ -264,7 +263,7 @@ private:
     }
 
     // This rotation will be basically the reverse of the last one
-    Node* rotateLeftSide(Node *oldRoot) {
+    Node *rotateLeftSide(Node *oldRoot) {
         Node *newRoot = oldRoot->right;
         Node *rotatedChild = newRoot->left;
 
@@ -373,7 +372,11 @@ int main() {
     for (int i = 0; i < infoSherlock.size(); i++) {
         Stats stats = Stats(infoSherlock[i]);
         stats.calcDistances();
+        stats.print();
     }
+
+    // Tests if number of distinct words is correct
+    cout << "Number of distinct words: " << infoSherlock.size() << endl;
 
     return 0;
 }

@@ -59,9 +59,8 @@ public:
         long total = 0;
 
         for (int i = 0; i < info.positions.size() - 1; i++) {
-            for (int k = i + 1; k < info.positions.size(); k++) {
 
-                distance = info.positions[k] - info.positions[i];
+                distance = info.positions[i + 1] - info.positions[i];
 
                 if (distance < minDistance) {
                     minDistance = distance;
@@ -72,7 +71,6 @@ public:
                 }
 
                 total += distance;
-            }
         }
 
         avgDistance = total / info.positions.size();
@@ -522,14 +520,18 @@ int main() {
     // End of Tests
 
     HashTable sherlock = readFileToHashTable("SherlockHolmes.txt");
-    cout << sherlock.currentSize << endl;
 
-    vector<Info> infoSherlock = hashTable.retrieveAllInfo();
+    vector<Info> infoSherlock = sherlock.retrieveAllInfo();
 
     for (int i = 0; i < infoSherlock.size(); i++) {
         Stats stats = Stats(infoSherlock[i]);
         stats.calcDistances();
+        stats.print();
     }
+
+    // Tests if number of distinct words is correct
+    cout << "Hash table size: "<< sherlock.currentSize << endl;
+    cout << "Number of distinct words: "<< infoSherlock.size() << endl;
 
     return 0;
 }
