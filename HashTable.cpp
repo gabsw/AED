@@ -75,6 +75,7 @@ class HashTable{
 		int size=0;
 		int maxtablesize=75;
 		const float threshold=0.75;
+		int nwords=0;
 	private:
 		unsigned int hash_function(const string &string,unsigned int s)
 		{
@@ -113,8 +114,6 @@ class HashTable{
 							//se começar no primeiro Node da lista, quando fazer put desse elemento, 
 							//Vai inserir uma lista toda que começa por esse Node
 							rePut(newArray,tail,newsize);
-							tail->next=nullptr;
-							tail->tail=nullptr;
 							tail=tail->previous; 
 						}
 					}
@@ -186,6 +185,7 @@ class HashTable{
 				int keyRepeat = -1;
 				if(temp==nullptr){ //se Node temp for null, entao a posicao hash esta vazia
 					table[hash]=newNode;	//guardar Node temp nessa posicao
+					nwords++;
 				}
 				else{
 					while(temp!=nullptr) {	//se nao for null, entao a posicao hash nao esta vazia
@@ -208,6 +208,7 @@ class HashTable{
 						newNode->previous=last;
 						head->tail=newNode; //o tail vai ser newNode
 						size++;
+						nwords++;
 					}
 				}
 				if (size>maxtablesize)
@@ -283,13 +284,16 @@ class HashTable{
 				return tablesize;
 			}
 
+			int getNwords(){
+				return nwords;
+			}
+			
 			vector<Stats> computeDistances(){
 				vector<Stats> AllResults;
 				int max;
 				int min;
 				double avg;
 				int total;
-				int size;
 				int flag=-1;
 				for (int i = 0; i < tablesize; i++)
 				{	
@@ -300,30 +304,25 @@ class HashTable{
 						min=INT_MAX;
 						avg=0;
 						total=0;
-						size=0;
 						flag=-1;
-						for (int i = 0; i < s.positions.size(); i++)
+						for (int i = 0; i < s.positions.size()-1; i++)
 						{
-							for (int k = i+1; k < s.positions.size(); k++)
+							int distance=abs(s.positions[i+1]-s.positions[i]);
+							if (distance>max)
 							{
-								int distance=abs(s.positions[i]-s.positions[k]);
-								if (distance>max)
-								{
-									max=distance;
-								}
-								if (distance<min)
-								{
-									min=distance;
-								}
-
-								total+=distance;
-								size++;
-								flag=1;
+								max=distance;
 							}
+							if (distance<min)
+							{
+								min=distance;
+							}
+
+							total+=distance;
+							flag=1;
 						}
 						if (flag==1)
 						{
-							avg=(double)total/size;
+							avg=(double)total/s.positions.size();
 							s.maxDistance=max;
 							s.minDistance=min;
 							s.avgDistance=avg;
@@ -379,20 +378,24 @@ HashTable readFileToHashTable(const string &filename) {
 
     return hashTable;
 }
+
 int main(void)
 {
 
-  HashTable sherlock = readFileToHashTable("SherlockHolmes.txt");
+	  HashTable sherlock = readFileToHashTable("SherlockHolmes.txt");
 
-  vector<Stats> stats=sherlock.computeDistances();
+	  vector<Stats> stats=sherlock.computeDistances();
 
- for (int i = 0; i < stats.size(); i++)
-  {
-    Stats s=stats[i];
-    cout<<"Word: "<<s.key<<" | counter: "<<s.counter<<" | max distance: "<<s.maxDistance<<"| mix distance: "
-    <<s.minDistance<<"| avg distance: "<<s.avgDistance<<endl;
-  }
-  cout<<sherlock.getPositions("puzzles")[1]<<endl;
+	 for (int i = 0; i < stats.size(); i++)
+	  {
+	    Stats s=stats[i];
+	    cout<<"Word: "<<s.key<<" | counter: "<<s.counter<<" | max distance: "<<s.maxDistance<<" | mix distance: "
+	    <<s.minDistance<<" | avg distance: "<<s.avgDistance<<"\n"<<endl;
+	  }
+
+
+	  cout<<"\nNumber of words-->"<<sherlock.getNwords()<<endl;
+
   return 0;
 }
 
