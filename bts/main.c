@@ -162,7 +162,7 @@ static void insert_resized(hashtable *ht, node *root, int index)
     { // se o nó ainda não existir ,é criado e a função termina
 
         ht->table[index] = new_node_resized(root);
-        ht->cont++;
+        
 
         return;
     }
@@ -180,6 +180,7 @@ static void insert_resized(hashtable *ht, node *root, int index)
             {
 
                 n->left = new_node_resized(root);
+                ht->cont++;
                 return;
             }
             else
@@ -193,6 +194,7 @@ static void insert_resized(hashtable *ht, node *root, int index)
             if (n->right == NULL)
             {
                 n->right = new_node_resized(root);
+                ht->cont++;
                 return;
             }
             else
@@ -208,7 +210,7 @@ static void insert(hashtable *h, file_data_t *f, int pos) // inserir palavra
     if (h->table[pos] == NULL)
     { // se o nó ainda não existir ,é criado e a função termina
         h->table[pos] = new_node(f);
-        h->cont++;
+        
         // printf("#####%d\n",h->cont);
         h->DifferentWords++;
         h->WordsCount++;
@@ -226,7 +228,7 @@ static void insert(hashtable *h, file_data_t *f, int pos) // inserir palavra
                 n->left = new_node(f);
                 h->WordsCount++;
                 h->DifferentWords++;
-
+                h->cont++;
                 return;
             }
             else
@@ -256,6 +258,7 @@ static void insert(hashtable *h, file_data_t *f, int pos) // inserir palavra
                 n->right = new_node(f);
                 h->WordsCount++;
                 h->DifferentWords++;
+                h->cont++;
 
                 return;
             }
